@@ -90,6 +90,8 @@ services:
     image: prom/node-exporter:v1.6.1
     container_name: ybo-node-exporter
     restart: unless-stopped
+    ports:
+      - "9100:9100"
     volumes:
       - /proc:/host/proc:ro
       - /sys:/host/sys:ro
@@ -101,7 +103,8 @@ services:
       - '--collector.filesystem.mount-points-exclude=^/(sys|proc|dev|host|etc)($$|/)'
       - '--collector.textfile.directory=/var/lib/node_exporter/textfile_collector'
     pid: host
-    network_mode: host  # Host system access için
+    networks:
+      - monitoring-network
     
   # cAdvisor - Container Metrics  
   cadvisor:

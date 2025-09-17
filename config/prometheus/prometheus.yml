@@ -44,7 +44,7 @@ scrape_configs:
   # Node Exporter
   - job_name: 'node-exporter'
     static_configs:
-      - targets: ['host.docker.internal:9100']
+      - targets: ['node-exporter:9100']
 
   # cAdvisor
   - job_name: 'cadvisor'
