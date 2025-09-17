@@ -1,0 +1,57 @@
+global:
+  scrape_interval: 15s
+  evaluation_interval: 15s
+
+rule_files:
+  - "rules/*.yml"
+
+alerting:
+  alertmanagers:
+    - static_configs:
+        - targets:
+          - localhost:9093
+
+scrape_configs:
+  # YBO API
+  - job_name: 'ybo-api'
+    static_configs:
+      - targets: ['host.docker.internal:5001']
+    metrics_path: '/metrics'
+    scrape_interval: 10s
+
+  # YBO CDN
+  - job_name: 'ybo-cdn'
+    static_configs:
+      - targets: ['host.docker.internal:5002']
+    metrics_path: '/metrics'
+
+  # YBO Video Service
+  - job_name: 'ybo-video'
+    static_configs:
+      - targets: ['host.docker.internal:8765']
+    metrics_path: '/metrics'
+
+  # PostgreSQL Exporter
+  - job_name: 'postgres'
+    static_configs:
+      - targets: ['host.docker.internal:9187']
+
+  # Redis Exporter
+  - job_name: 'redis'
+    static_configs:
+      - targets: ['host.docker.internal:9121']
+
+  # Node Exporter
+  - job_name: 'node-exporter'
+    static_configs:
+      - targets: ['host.docker.internal:9100']
+
+  # cAdvisor
+  - job_name: 'cadvisor'
+    static_configs:
+      - targets: ['cadvisor:8080']
+
+  # Prometheus kendisi
+  - job_name: 'prometheus'
+    static_configs:
+      - targets: ['localhost:9090']
